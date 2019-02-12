@@ -11,6 +11,7 @@ namespace GameQuakeAPI.Models
         public int total_kills { get; set; }
         public virtual List<Player> players { get; set; }
         public virtual List<Dead> kills { get; set; }
+
         public Game()
         {
             players = new List<Player>();
@@ -24,7 +25,22 @@ namespace GameQuakeAPI.Models
             if (exists == null)
             {
                 players.Add(player);
+                AddPlayerDeath(player);
+
+                var deadOnePlayer = kills.FirstOrDefault(x => x.playerId == player.playerId);
+                deadOnePlayer.ChangeDeadPlayer(0);
             }
+        }
+        //ADICIONAR NOVO JOGADOR MORTE
+        private void AddPlayerDeath(Player player)
+        {
+            var playerDead = players.FirstOrDefault(x => x.playerId == player.playerId);
+            if (playerDead == null)
+                playerDead = player;
+
+            var newDeadPlayer = new Dead(player.playerId, player.playerName);
+            newDeadPlayer.Add();
+            kills.Add(newDeadPlayer);
         }
         //ALTERAR NOME DO JOGADOR
         public void ChangePlayerName(Player player, string name)
@@ -34,7 +50,32 @@ namespace GameQuakeAPI.Models
             if (changePlayer != null && changePlayerDead != null)
             {
                 changePlayer.ChangeName(name);
+                changePlayerDead.ChangeDeadPlayerName(name);
             }
+        }
+        //MORTE POR WORD
+        public void DeadWord(Player player)
+        {
+            var exists = kills.FirstOrDefault(x => x.playerId == player.playerId);
+            if (exists != null)
+            {
+                exists.Subtract();
+            }
+            total_kills++;
+        }
+        //MORTE POR PLAYERS
+        public void DeadPlayer(Player playerDead)
+        {
+            var exists = kills.FirstOrDefault(x => x.playerId == playerDead.playerId);
+            if (exists != null)
+            {
+                exists.Add();
+            }
+            else
+            {
+                AddPlayerDeath(playerDead);
+            }
+            total_kills++;
         }
     }
 }

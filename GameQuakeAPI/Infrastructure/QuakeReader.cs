@@ -35,6 +35,11 @@ namespace GameQuakeAPI.Infrastructure
                     case "ClientUserinfoChanged":
                         ChangePlayerName(game, row);
                         break;
+                    case "Kill":
+                        NewDead(game, row);
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -63,6 +68,20 @@ namespace GameQuakeAPI.Infrastructure
             var name = strName.Substring(0, strName.IndexOf(@"\t\"));
 
             game.ChangePlayerName(new Player(id), name);
+        }
+        public void NewDead(Game game, string row)
+        {
+            var action = " Kill: ";
+            string strPlayers = row.Substring(row.IndexOf(action) + action.Length);
+            strPlayers = strPlayers.Substring(0, strPlayers.IndexOf(": "));
+            string[] infor = strPlayers.Split(' ');
+
+            var playerIdKill = int.Parse(infor[0]);
+            var playerIdDead = int.Parse(infor[1]);
+
+            if (playerIdKill == 1022)
+                game.DeadWord(new Player(playerIdDead));
+            else game.DeadPlayer(new Player(playerIdDead));
         }
     }
 }
