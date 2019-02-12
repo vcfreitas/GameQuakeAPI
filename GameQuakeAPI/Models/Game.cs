@@ -26,5 +26,15 @@ namespace GameQuakeAPI.Models
                 players.Add(player);
             }
         }
+        //ALTERAR NOME DO JOGADOR
+        public void ChangePlayerName(Player player, string name)
+        {
+            var changePlayer = players.FirstOrDefault(x => x.playerId == player.playerId);
+            var changePlayerDead = kills.FirstOrDefault(x => x.playerId == player.playerId);
+            if (changePlayer != null && changePlayerDead != null)
+            {
+                changePlayer.ChangeName(name);
+            }
+        }
     }
 }

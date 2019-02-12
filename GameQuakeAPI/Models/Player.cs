@@ -18,5 +18,10 @@ namespace GameQuakeAPI.Models
             playerId = id;
             playerName = name;
         }
+        //ALTERAR NOME
+        public void ChangeName(string name)
+        {
+            playerName = name;
+        }
     }
 }

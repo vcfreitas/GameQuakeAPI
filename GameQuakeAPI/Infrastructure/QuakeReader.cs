@@ -32,6 +32,9 @@ namespace GameQuakeAPI.Infrastructure
                     case "ClientConnect":
                         NewPlayer(game, row);
                         break;
+                    case "ClientUserinfoChanged":
+                        ChangePlayerName(game, row);
+                        break;
                 }
             }
 
@@ -48,6 +51,18 @@ namespace GameQuakeAPI.Infrastructure
             var action = "ClientConnect: ";
             var playerId = int.Parse(row.Substring(row.IndexOf(action) + action.Length));
             game.AddPlayer(new Player(playerId));
+        }
+        public void ChangePlayerName(Game game, string row)
+        {
+            var action = " ClientUserinfoChanged: ";
+
+            var strName = row.Substring(row.IndexOf(action) + action.Length);
+            var id = int.Parse(strName.Substring(0, strName.IndexOf(@"n\")));
+
+            strName = row.Substring(row.IndexOf(@"n\") + 2);
+            var name = strName.Substring(0, strName.IndexOf(@"\t\"));
+
+            game.ChangePlayerName(new Player(id), name);
         }
     }
 }
