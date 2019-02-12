@@ -7,7 +7,7 @@ O arquivo games.log é gerado pelo servidor de quake 3 arena. Ele registra todas
 O parser deve ser capaz de ler o arquivo, agrupar os dados de cada jogo, e em cada jogo deve coletar as informações de morte.
 
 Ao aplicar o parser sobre o arquivo de log, resultará em um json, como apresentado abaixo:
-
+```
 [
   {
     "gameId": 1,
@@ -53,6 +53,7 @@ Ao aplicar o parser sobre o arquivo de log, resultará em um json, como apresent
     ]
   }
 ]
+```
 
 #Listar games
 
