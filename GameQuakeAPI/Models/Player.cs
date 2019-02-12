@@ -9,5 +9,14 @@ namespace GameQuakeAPI.Models
     {
         public int playerId { get; set; }
         public string playerName { get; set; }
+        public Player(int id)
+        {
+            playerId = id;
+        }
+        public Player(int id, string name)
+        {
+            playerId = id;
+            playerName = name;
+        }
     }
 }

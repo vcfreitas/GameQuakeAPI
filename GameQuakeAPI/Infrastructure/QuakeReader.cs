@@ -29,6 +29,9 @@ namespace GameQuakeAPI.Infrastructure
                         gameId++;
                         game = NewGame(games, gameId);
                         break;
+                    case "ClientConnect":
+                        NewPlayer(game, row);
+                        break;
                 }
             }
 
@@ -39,6 +42,12 @@ namespace GameQuakeAPI.Infrastructure
             Game game = new Game() { gameId = gameId };
             games.Add(game);
             return game;
+        }
+        public void NewPlayer(Game game, string row)
+        {
+            var action = "ClientConnect: ";
+            var playerId = int.Parse(row.Substring(row.IndexOf(action) + action.Length));
+            game.AddPlayer(new Player(playerId));
         }
     }
 }
